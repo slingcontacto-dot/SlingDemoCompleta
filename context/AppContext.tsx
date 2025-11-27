@@ -172,62 +172,24 @@ const INITIAL_PURCHASE_ORDERS: PurchaseOrder[] = [
 
 export const AppProvider = ({ children }: { children?: React.ReactNode }) => {
   // --- Auth & Users ---
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('erp_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+  // MODO VOLÁTIL: Se inicializa en null cada vez que carga la app (refresh)
+  const [user, setUser] = useState<User | null>(null);
 
-  const [usersList, setUsersList] = useState<User[]>(() => {
-    const saved = localStorage.getItem('erp_users_list');
-    return saved ? JSON.parse(saved) : INITIAL_USERS;
-  });
+  // MODO VOLÁTIL: Se carga siempre la lista inicial, sin leer localStorage
+  const [usersList, setUsersList] = useState<User[]>(INITIAL_USERS);
 
   // --- Data States ---
-  const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('erp_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
-  });
+  // Todos se inicializan con los datos estáticos constantes
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [sales, setSales] = useState<Sale[]>(INITIAL_SALES);
+  const [clients, setClients] = useState<Client[]>(INITIAL_CLIENTS);
+  const [suppliers, setSuppliers] = useState<Supplier[]>(INITIAL_SUPPLIERS);
+  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>(INITIAL_PURCHASE_ORDERS);
+  const [discounts, setDiscounts] = useState<Discount[]>(INITIAL_DISCOUNTS);
 
-  const [sales, setSales] = useState<Sale[]>(() => {
-    const saved = localStorage.getItem('erp_sales');
-    return saved ? JSON.parse(saved) : INITIAL_SALES;
-  });
-
-  const [clients, setClients] = useState<Client[]>(() => {
-    const saved = localStorage.getItem('erp_clients');
-    return saved ? JSON.parse(saved) : INITIAL_CLIENTS;
-  });
-
-  const [suppliers, setSuppliers] = useState<Supplier[]>(() => {
-    const saved = localStorage.getItem('erp_suppliers');
-    return saved ? JSON.parse(saved) : INITIAL_SUPPLIERS;
-  });
-
-  const [orders, setOrders] = useState<Order[]>(() => {
-    const saved = localStorage.getItem('erp_orders');
-    return saved ? JSON.parse(saved) : INITIAL_ORDERS;
-  });
-
-  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>(() => {
-    const saved = localStorage.getItem('erp_purchase_orders');
-    return saved ? JSON.parse(saved) : INITIAL_PURCHASE_ORDERS;
-  });
-
-  const [discounts, setDiscounts] = useState<Discount[]>(() => {
-    const saved = localStorage.getItem('erp_discounts');
-    return saved ? JSON.parse(saved) : INITIAL_DISCOUNTS;
-  });
-
-  // --- Persistence Effects ---
-  useEffect(() => { localStorage.setItem('erp_user', JSON.stringify(user)); }, [user]);
-  useEffect(() => { localStorage.setItem('erp_users_list', JSON.stringify(usersList)); }, [usersList]);
-  useEffect(() => { localStorage.setItem('erp_products', JSON.stringify(products)); }, [products]);
-  useEffect(() => { localStorage.setItem('erp_sales', JSON.stringify(sales)); }, [sales]);
-  useEffect(() => { localStorage.setItem('erp_clients', JSON.stringify(clients)); }, [clients]);
-  useEffect(() => { localStorage.setItem('erp_suppliers', JSON.stringify(suppliers)); }, [suppliers]);
-  useEffect(() => { localStorage.setItem('erp_orders', JSON.stringify(orders)); }, [orders]);
-  useEffect(() => { localStorage.setItem('erp_purchase_orders', JSON.stringify(purchaseOrders)); }, [purchaseOrders]);
-  useEffect(() => { localStorage.setItem('erp_discounts', JSON.stringify(discounts)); }, [discounts]);
+  // NOTA: Se eliminaron los useEffects que guardaban en localStorage.
+  // Esto asegura que al recargar la página (F5 o cerrar/abrir pestaña), todo vuelva al estado original.
 
   // --- Actions ---
 
@@ -270,6 +232,8 @@ export const AppProvider = ({ children }: { children?: React.ReactNode }) => {
       }
     });
     setProducts(newProducts);
+    // Return ID for reference
+    return nextId;
   };
 
   // Clients
