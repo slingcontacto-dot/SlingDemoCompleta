@@ -14,7 +14,10 @@ const Card = ({ title, value, icon: Icon, color }: any) => (
     </div>
     <div className="relative z-10">
       <p className="text-slate-400 text-sm font-medium mb-1">{title}</p>
-      <h3 className="text-3xl font-bold text-white">{value}</h3>
+      {/* Changed text-3xl to text-2xl and added truncate to handle large numbers */}
+      <h3 className="text-2xl font-bold text-white truncate" title={String(value)}>
+        {value}
+      </h3>
     </div>
   </div>
 );
