@@ -8,14 +8,14 @@ import { TrendingUp, AlertTriangle, DollarSign, Package } from 'lucide-react';
 import { formatCurrency, formatDate } from '../types';
 
 const Card = ({ title, value, icon: Icon, color }: any) => (
-  <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
+  <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 relative overflow-hidden">
     <div className={`absolute top-0 right-0 p-4 opacity-10 ${color}`}>
        <Icon size={64} />
     </div>
     <div className="relative z-10">
       <p className="text-slate-400 text-sm font-medium mb-1">{title}</p>
-      {/* Changed text-3xl to text-2xl and added truncate to handle large numbers */}
-      <h3 className="text-2xl font-bold text-white truncate" title={String(value)}>
+      {/* Ajuste de tamaño de fuente: más pequeño en móviles, normal en escritorio. Sin truncate. */}
+      <h3 className="text-lg md:text-xl xl:text-2xl font-bold text-white break-words">
         {value}
       </h3>
     </div>
@@ -55,60 +55,58 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-         {/* Main Metrics Area - 3 Columns */}
-         <div className="lg:col-span-3 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card 
-                title="Ventas Hoy" 
-                value={formatCurrency(salesToday)} 
-                icon={DollarSign} 
-                color="text-green-500" 
-              />
-              <Card 
-                title="Alertas Stock" 
-                value={lowStockProducts.length} 
-                icon={AlertTriangle} 
-                color="text-red-500" 
-              />
-              <Card 
-                title="Pedidos Activos" 
-                value={orders.filter(o => o.status !== 'Cancelado' && o.status !== 'Entregado').length} 
-                icon={Package} 
-                color="text-blue-500" 
-              />
-              <Card 
-                title="Valuación Stock" 
-                value={formatCurrency(totalStockValue)} 
-                icon={TrendingUp} 
-                color="text-purple-500" 
-              />
-            </div>
+      {/* FILA 1: Tarjetas de Métricas (Ancho completo para dar espacio a los números) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card 
+            title="Ventas Hoy" 
+            value={formatCurrency(salesToday)} 
+            icon={DollarSign} 
+            color="text-green-500" 
+          />
+          <Card 
+            title="Alertas Stock" 
+            value={lowStockProducts.length} 
+            icon={AlertTriangle} 
+            color="text-red-500" 
+          />
+          <Card 
+            title="Pedidos Activos" 
+            value={orders.filter(o => o.status !== 'Cancelado' && o.status !== 'Entregado').length} 
+            icon={Package} 
+            color="text-blue-500" 
+          />
+          <Card 
+            title="Valuación Stock" 
+            value={formatCurrency(totalStockValue)} 
+            icon={TrendingUp} 
+            color="text-purple-500" 
+          />
+      </div>
 
-            {/* Chart */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-white mb-6">Ventas de la Semana</h3>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={salesData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="date" stroke="#94a3b8" />
-                    <YAxis stroke="#94a3b8" tickFormatter={(value) => `$${value}`} />
-                    <Tooltip 
-                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#fff' }}
-                      formatter={(value: number) => formatCurrency(value)}
-                    />
-                    <Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+      {/* FILA 2: Gráfico y Lista Lateral */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+         {/* Chart - Ocupa 3 columnas */}
+         <div className="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-6">Ventas de la Semana</h3>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={salesData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <XAxis dataKey="date" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" tickFormatter={(value) => `$${value}`} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#fff' }}
+                    formatter={(value: number) => formatCurrency(value)}
+                  />
+                  <Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
          </div>
 
-         {/* Sidebar / Right Column - 1 Column */}
+         {/* Sidebar / Stock Crítico - Ocupa 1 columna */}
          <div className="space-y-6">
-            {/* Low Stock List */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 h-full">
               <h3 className="text-lg font-semibold text-white mb-4">Stock Crítico</h3>
               <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {lowStockProducts.length === 0 ? (
