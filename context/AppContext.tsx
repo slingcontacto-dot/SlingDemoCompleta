@@ -170,7 +170,7 @@ const INITIAL_PURCHASE_ORDERS: PurchaseOrder[] = [
   }
 ];
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AppProvider = ({ children }: { children?: React.ReactNode }) => {
   // --- Auth & Users ---
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('erp_user');

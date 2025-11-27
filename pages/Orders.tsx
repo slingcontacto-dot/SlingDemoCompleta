@@ -238,8 +238,8 @@ export default function Orders() {
           tableRows.push([
               1,
               `Servicio: ${name}`,
-              formatCurrency(price),
-              formatCurrency(price)
+              formatCurrency(Number(price)),
+              formatCurrency(Number(price))
           ]);
       });
 
@@ -383,7 +383,7 @@ export default function Orders() {
                {Object.entries(order.services).map(([name, price]) => (
                  <div key={name} className="flex justify-between text-sm">
                    <span className="text-slate-300">{name}</span>
-                   <span className="text-slate-500">{formatCurrency(price)}</span>
+                   <span className="text-slate-500">{formatCurrency(Number(price))}</span>
                  </div>
                ))}
                {order.observations && (

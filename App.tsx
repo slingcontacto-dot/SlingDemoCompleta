@@ -55,7 +55,7 @@ const SidebarSection = ({ title }: { title: string }) => (
   </div>
 );
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children?: React.ReactNode }) => {
   const { user, logout } = useApp();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -178,7 +178,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
   const { user } = useApp();
   if (!user) return <Navigate to="/login" />;
   return <Layout>{children}</Layout>;

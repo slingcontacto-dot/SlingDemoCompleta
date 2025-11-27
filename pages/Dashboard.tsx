@@ -54,7 +54,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
          {/* Main Metrics Area - 3 Columns */}
-         <div className="lg:col-span-3 space-y-6 min-w-0">
+         <div className="lg:col-span-3 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card 
                 title="Ventas Hoy" 
@@ -85,7 +85,7 @@ export default function Dashboard() {
             {/* Chart */}
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
               <h3 className="text-lg font-semibold text-white mb-6">Ventas de la Semana</h3>
-              <div className="h-72 w-full min-w-0">
+              <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={salesData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
