@@ -1,0 +1,5 @@
+{
+  "name": "Modelo funcional de sling completo",
+  "description": "A modern web-based ERP system for inventory, sales, orders, and supplier management, ported from Python/Tkinter.",
+  "requestFramePermissions": []
+}
