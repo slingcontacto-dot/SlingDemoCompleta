@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { 
   LayoutDashboard, 
@@ -187,7 +187,7 @@ const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
 export default function App() {
   return (
     <AppProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
           
@@ -204,7 +204,7 @@ export default function App() {
           <Route path="/users" element={<ProtectedRoute><UsersAdmin /></ProtectedRoute>} />
           <Route path="/backup" element={<ProtectedRoute><Backup /></ProtectedRoute>} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </AppProvider>
   );
 }
